@@ -22,16 +22,10 @@ def split(a, n):
     k, m = divmod(len(a), n)
     return (a[i*k+min(i, m):(i+1)*k+min(i+1, m)] for i in range(n))
 def motherboard():
-    # Create a new instance of the Firefox driver
     driver = webdriver.Firefox()
     driver.implicitly_wait(20)
-    # Open the webpage
     driver.get("https://motherboarddb.com/motherboards/?dt=list")
-
-    # Find the element by ID
-    #17 - 237
-    #
-    delay = 100 # seconds
+    delay = 100
     final_array = []
     i = 0
     try:
@@ -69,10 +63,6 @@ def motherboard():
 
             with open('data.json', 'w') as fp:
                 json.dump(final_array, fp)
-            # element = WebDriverWait(driver, 10).until(
-            #     EC.element_to_be_clickable((By.CSS_SELECTOR,".page-link:last-child"))
-            # )
-            # element.click()
             time.sleep(2)
             driver.find_elements(By.CLASS_NAME,"page-link")[-1].click()
         
@@ -81,25 +71,13 @@ def motherboard():
         
     except TimeoutException:
         print ("Loading took too much time!")
-
-
-    # Click the element
-
-
-    # Close the browser
     driver.quit()
 
 def cpu():
-    # Create a new instance of the Firefox driver
     driver = webdriver.Firefox()
     driver.implicitly_wait(20)
-    # Open the webpage
     driver.get("https://www.videocardbenchmark.net/GPU_mega_page.html")
-
-    # Find the element by ID
-    #17 - 237
-    #
-    delay = 100 # seconds
+    delay = 100 
     final_array = []
     i = 0
     try:
@@ -112,27 +90,12 @@ def cpu():
                 wr = csv.writer(csvfile)
                 for row in table.find_elements(By.CSS_SELECTOR,'tr'):
                     wr.writerow([d.text for d in row.find_elements(By.CSS_SELECTOR,'td')])
-            # csv_file = pd.DataFrame(pd.read_csv("eggs.csv", sep = ",", header = 0, index_col = False))
-            # csv_file.to_json("data_cpu.json", orient = "records", date_format = "epoch", double_precision = 10, force_ascii = True, date_unit = "ms", default_handler = None)
         
     except TimeoutException:
         print ("Loading took too much time!")
 
-
-    # Click the element
-
-
-    # Close the browser
     driver.quit()
-# cpu()
 
-
-    # {
-    #   "Name": "Intel Pentium E6600 @ 3.06GHz",
-    #   "Core": 2,
-    #   "Socket": "LGA775",
-    #   "Type": "Desktop"
-    # },
 arr = []
 def fixdata():
     dic_temp = {}
@@ -161,21 +124,19 @@ def motherboard_fulldata():
         data = json.load(f)
     driver = webdriver.Firefox()
     driver.implicitly_wait(20)
-    # Open the webpage
-    #table-wrapper
     delay = 100 # seconds
     if(not os.path.isfile("sample-1.json") or os.stat("sample-1.json").st_size == 0):
         file = open("sample-1.json","w") 
         file.write("[]") 
         file.close()
     with open('sample-1.json', 'r') as openfile:
-        # Reading from json file
+
         json_object = json.load(openfile)
 
 
 
     start_point = 0
-    # start_point = 1150
+
     updated_arr = []
     if(json_object!=None):
         if(len(json_object)>1):
@@ -254,22 +215,9 @@ def motherboard_fulldata():
                     json_object = json.dumps(updated_arr)                
                     with open("sample-1.json", "w") as outfile:
                         outfile.write(json_object)
-                
-            #table-sm 0->Network 1->CrossFire & SLI 2->RAM  3->M.2
-            #table 0->Typical Data  1->Color 2->Network 4->Audio
-            #ul Tag 11->Storage 14-> Expansion Slot
+
         except TimeoutException:
             print("MX")
-# with open('sample-1.json') as f:
-#         data = json.load(f)
-# with open('sample-21150.json') as f:
-#         data2 = json.load(f)
-# with open("sample-3.json", "w") as outfile:
-#         outfile.write(json.dumps(data)
-
-# from icrawler.builtin import GoogleImageCrawler
-# google_Crawler = GoogleImageCrawler(downloader_threads=4, storage = {'root_dir': r'google'})
-# google_Crawler.crawl(keyword = '1650 ti', max_num = 10)
 with open('sample-1.json') as f:
         data = json.load(f)
 arr = []
